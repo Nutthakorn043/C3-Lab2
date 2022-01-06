@@ -10,21 +10,15 @@ public class MyPlayerBehaviour : MonoBehaviour
 
     public float speed; //'float' is short for floating point number, which is basically just a normal number
 
-    // public List<WeaponBehaviour> weapons = new List<WeaponBehaviour>();
-    public WeaponBehaviour[] weapons;
+    public List<WeaponBehaviour> weapons = new List<WeaponBehaviour>();
+    // public WeaponBehaviour[] weapons = new WeaponBehaviour[6];
     public int selectedWeaponIndex;
-    public int arraySize;
 
     // Start is called before the first frame update
     void Start()
     {
         References.thePlayer = gameObject;
         selectedWeaponIndex = 0;
-        weapons = new WeaponBehaviour[arraySize];
-        for (int i = 0; i < arraySize; i++)
-        {
-            weapons[i] = new WeaponBehaviour();
-        }
     }
 
     // Update is called once per frame
@@ -45,8 +39,8 @@ public class MyPlayerBehaviour : MonoBehaviour
         transform.LookAt(lookAtPosition);
 
         //Firing
-        // if (weapons.Count > 0 && Input.GetButton("Fire1"))
-        if (weapons.Length > 0 && Input.GetButton("Fire1"))
+        if (weapons.Count > 0 && Input.GetButton("Fire1"))
+        // if (weapons.Length > 0 && Input.GetButton("Fire1"))
         {
             //Tell our weapon to fire
             weapons[selectedWeaponIndex].Fire(cursorPosition);
@@ -65,8 +59,8 @@ public class MyPlayerBehaviour : MonoBehaviour
         //Change our index
         selectedWeaponIndex = index;
         //If it's gone too far, loop back around
-        // if (selectedWeaponIndex >= weapons.Count)
-        if (selectedWeaponIndex >= weapons.Length)
+        if (selectedWeaponIndex >= weapons.Count)
+        // if (selectedWeaponIndex >= weapons.Length)
         {
             selectedWeaponIndex = 0;
         }
@@ -74,8 +68,8 @@ public class MyPlayerBehaviour : MonoBehaviour
         //For each weapon in our list
         for (
             int i = 0; //Declare a variable to keep track of how many iterations we've done
-                       // i < weapons.Count;
-            i < weapons.Length; //Set a limit for how high this variable can go
+            i < weapons.Count;
+            // i < weapons.Length; //Set a limit for how high this variable can go
             i++ //Run this after each time we iterate - increase the iteration count
         )
         {
@@ -99,17 +93,12 @@ public class MyPlayerBehaviour : MonoBehaviour
         if (theirWeapon != null)
         {
             //Add it to our internal list
-            // weapons.Add(theirWeapon);
-            for (int i = 0; i <= arraySize; i++)
-            {
-                if (weapons[selectedWeaponIndex + i] == null)
-                {
-                    weapons[selectedWeaponIndex + i] = theirWeapon;
-                    break;
-                }
+            weapons.Add(theirWeapon);
+            // for(int i =0; i< weapons.Length; i++)
+            // {
+            //     weapons[i] = theirWeapon;
 
-            }
-
+            // }
             //Move it to our location
             theirWeapon.transform.position = transform.position;
             theirWeapon.transform.rotation = transform.rotation;
@@ -117,9 +106,8 @@ public class MyPlayerBehaviour : MonoBehaviour
             //Parent it to us - attach it to us, so it moves with us
             theirWeapon.transform.SetParent(transform);
             //Select it!
-            // ChangeWeaponIndex(weapons.Count - 1);
-            ChangeWeaponIndex(weapons.Length);
-
+            ChangeWeaponIndex(weapons.Count - 1);
+            // ChangeWeaponIndex(weapons.Length - 1);
         }
     }
 
